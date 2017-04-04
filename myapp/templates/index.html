@@ -7,20 +7,37 @@
 <hr/>
 
 {% if words %}
-	{% for item in words.keys() %}
+	{% for item in words %}
 		<div>
 			<h3>{{item.word}}</h3>
+			<a href=# id="detail" class="btn btn-info" role="button">detail</a>
+
 			<a href="{{ url_for('index.delete_word', id=item.id)}}" \
 				class="btn btn-info" role="button">delete</a>
-		</div>
+		</div>		
 		
-		<ul>
-		{% for translate in words.get(item) %}
-			<li>{{translate.Translate}}</li>
-		{% endfor %}
-		</ul>
 		<hr/>
 	{% endfor %}
+
+	<div id="div-my"></div>
 {% endif%}
 
 {% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script type="text/javascript">
+$(function(){
+	$('a#detail').click(function(){
+		$.ajax({type:'GET', url:"{{url_for('index.word_detail', id=4)}}",
+			success:function(data, textStatus){
+				$('#div-my').text(data.task);
+			},
+			error: function( XMLResponse ) {  
+                alert( XMLResponse.responseText )  
+            }
+		})
+	})	
+});
+</script>
+{% endblock%}
