@@ -14,12 +14,11 @@
 
 			<a href="{{ url_for('index.delete_word', id=item.id)}}" \
 				class="btn btn-info" role="button">delete</a>
-		</div>		
-		
+		</div>			
 		<hr/>
 	{% endfor %}
 
-	<div id="div-my"></div>
+	
 {% endif%}
 
 {% endblock %}
@@ -28,16 +27,39 @@
 {{super()}}
 <script type="text/javascript">
 $(function(){
-	$('a#detail').click(function(){
+
+	method_get = function(event){
+		var docu = this
+		console.log('index:', index)
+		$.get("{{url_for('index.word_detail', id=4)}}", function(data, status){
+			
+			if(status == 'success')
+			{
+				$(docu).parent().append(data.task);
+			}
+			else
+			{
+				alert("Data: " + data.task);
+			}
+		});
+	};
+
+	method_ajax = function(){
 		$.ajax({type:'GET', url:"{{url_for('index.word_detail', id=4)}}",
 			success:function(data, textStatus){
-				$('#div-my').text(data.task);
+				$(this).parent().hide();
 			},
-			error: function( XMLResponse ) {  
-                alert( XMLResponse.responseText )  
+			error: function(XMLResponse) {  
+                alert(XMLResponse.responseText)  
             }
 		})
-	})	
+	};
+
+	method_test = function(){
+		$(this).parent().hide();
+	};
+
+	$('a#detail').click(method_get);
 });
 </script>
 {% endblock%}
