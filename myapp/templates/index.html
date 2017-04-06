@@ -30,7 +30,7 @@ $(function(){
 
 	method_get = function(event){
 		var docu = this
-		console.log('index:', index)
+		
 		$.get("{{url_for('index.word_detail', id=4)}}", function(data, status){
 			
 			if(status == 'success')
